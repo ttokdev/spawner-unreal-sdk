@@ -190,6 +190,7 @@ void USpawnerApiSubsystem::OnSocketMessageReceived(const FString& message)
 		FJsonObjectConverter::JsonObjectStringToUStruct<FSpawnerResponseStream>(message, &ResponseStream, 0, 0);
 		
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, TEXT("Response text: ") + ResponseStream.data.response);
+		UE_LOG(LogTemp, Log, TEXT("Response text: %s"), *ResponseStream.data.response);
 		return;
 	}
 	else if (ResponseType == "OA_MODERATION")
