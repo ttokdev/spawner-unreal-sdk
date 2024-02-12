@@ -131,6 +131,22 @@ struct FSpawnerResponseStream
 	FSpawnerResponseStreamData data;
 };
 
+UENUM(BlueprintType)
+enum class EPlayerAgeGroup : uint8
+{
+	EP_Child UMETA(DisplayName = "CHILD"),
+	EP_Teen UMETA(DisplayName = "TEEN"),
+	EP_Adult UMETA(DisplayName = "ADULT"),
+	EP_Elderly UMETA(DisplayName = "ELDERLY"),
+};
+
+UENUM(BlueprintType)
+enum class EPlayerGender : uint8
+{
+	EP_Child UMETA(DisplayName = "MALE"),
+	EP_Teen UMETA(DisplayName = "FEMALE"),
+};
+
 /** For Unreal **/
 USTRUCT(BlueprintType)
 struct FSpawnerPlayerInfo
@@ -147,8 +163,8 @@ struct FSpawnerPlayerInfo
 	FString Description;
 
 	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
-	FString AgeGroup;
+	EPlayerAgeGroup AgeGroup;
 
 	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
-	FString Gender;
+	EPlayerGender Gender;
 };

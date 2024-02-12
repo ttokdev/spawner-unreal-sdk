@@ -7,7 +7,6 @@
 #include "Components/ActorComponent.h"
 #include "SpawnerPlayerComponent.generated.h"
 
-
 UCLASS( ClassGroup=(Spawner), meta=(BlueprintSpawnableComponent) )
 class SPAWNERAI_API USpawnerPlayerComponent : public UActorComponent
 {
@@ -38,16 +37,16 @@ public:
 	FORCEINLINE void SetPlayerDescription(const FString& Description) { PlayerDescription = Description; }
 
 	UFUNCTION(BlueprintCallable, Category = "Spawner")
-	FORCEINLINE FString GetPlayerAgeGroup() { return PlayerAgeGroup; } const
+	FORCEINLINE EPlayerAgeGroup GetPlayerAgeGroup() { return PlayerAgeGroup; } const
 
 	UFUNCTION(BlueprintCallable, Category = "Spawner")
-	FORCEINLINE void SetPlayerAgeGroup(const FString& AgeGroup) { PlayerAgeGroup = AgeGroup; }
+	FORCEINLINE void SetPlayerAgeGroup(const EPlayerAgeGroup& AgeGroup) { PlayerAgeGroup = AgeGroup; }
 
 	UFUNCTION(BlueprintCallable, Category = "Spawner")
-	FORCEINLINE FString GetPlayerGender() { return PlayerGender; } const
+	FORCEINLINE EPlayerGender GetPlayerGender() { return PlayerGender; } const
 
 	UFUNCTION(BlueprintCallable, Category = "Spawner")
-	FORCEINLINE void SetPlayerGender(const FString& Gender) { PlayerGender = Gender; }
+	FORCEINLINE void SetPlayerGender(const EPlayerGender& Gender) { PlayerGender = Gender; }
 
 protected:
 	// Called when the game starts
@@ -63,7 +62,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Spawner")
 	FString PlayerDescription;
 	UPROPERTY(EditAnywhere, Category = "Spawner")
-	FString PlayerAgeGroup;
+	EPlayerAgeGroup PlayerAgeGroup;
 	UPROPERTY(EditAnywhere, Category = "Spawner")
-	FString PlayerGender;
+	EPlayerGender PlayerGender;
 };

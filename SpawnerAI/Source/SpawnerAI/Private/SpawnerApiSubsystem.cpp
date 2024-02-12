@@ -68,8 +68,8 @@ void USpawnerApiSubsystem::SendChat(const FString& CharacterId, const FString& I
 	Player.id = PlayerInfo.Id;
 	Player.name = PlayerInfo.Name;
 	Player.description = PlayerInfo.Description;
-	Player.age_group = PlayerInfo.AgeGroup;
-	Player.gender = PlayerInfo.Gender;
+	Player.age_group = StaticEnum<EPlayerAgeGroup>()->GetDisplayValueAsText(PlayerInfo.AgeGroup).ToString();
+	Player.gender = StaticEnum<EPlayerGender>()->GetDisplayValueAsText(PlayerInfo.Gender).ToString();;
 
 	ChatRequestData.player = Player;
 	
@@ -173,6 +173,8 @@ void USpawnerApiSubsystem::RegisterSceneCharacter(USpawnerCharacterComponent* Ch
 	SceneCharactersList.Add(CharacterId);
 	RegisteredCharacterComponents.Add(CharacterComponent);
 	CharacterComponentsById.Add(CharacterId, CharacterComponent);
+
+	UE_LOG(LogSpawnerAI, Error, TEXT("SceneCharactersList.Num"));
 
 	if ((SceneCharactersList.Num() == 1))
 	{

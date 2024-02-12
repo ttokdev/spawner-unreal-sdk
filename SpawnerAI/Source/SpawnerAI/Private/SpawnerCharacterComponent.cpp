@@ -23,10 +23,12 @@ void USpawnerCharacterComponent::BeginPlay()
 	
 	if (CharacterId.IsEmpty())
 	{
+		UE_LOG(LogTemp, Log, TEXT("character id is empty."))
 		return;
 	}
 	if (!ensure(SpawnerApiSubsystem.IsValid()))
 	{
+		UE_LOG(LogTemp, Log, TEXT("Spawner Api Subsystem is not valid."))
 		return;
 	}
 	SpawnerApiSubsystem->RegisterSceneCharacter(this);

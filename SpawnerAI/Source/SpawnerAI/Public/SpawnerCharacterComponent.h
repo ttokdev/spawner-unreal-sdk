@@ -30,7 +30,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 private:
-	UPROPERTY(EditAnywhere, Category = "Spawner")
+	UPROPERTY(EditInstanceOnly, Category = "Spawner")
 	FString CharacterId;
 
 	TWeakObjectPtr<USpawnerApiSubsystem> SpawnerApiSubsystem;
