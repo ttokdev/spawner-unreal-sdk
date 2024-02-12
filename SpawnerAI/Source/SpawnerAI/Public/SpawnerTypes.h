@@ -10,96 +10,92 @@ struct FSpawnerWorkspaceData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Workspace")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Workspace")
 	FString WorkspaceId;
 
-	UPROPERTY(EditAnywhere, Category = "Workspace")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Workspace")
 	FString ApiKey;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Workspace")
+	FString ApiSecret;
 };
 
 USTRUCT(BlueprintType)
-struct FSpawnerAuthRequestData
+struct FSpawnerSessionTokenRequestData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString apiKey;
+	UPROPERTY(EditAnywhere, Category="Http Request")
+	FString api_key;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString chatId;
+	UPROPERTY(EditAnywhere, Category = "Http Request")
+	FString api_secret;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString workspaceId;
+	UPROPERTY(EditAnywhere, Category = "Http Request")
+	FString workspace_id;
+
+	UPROPERTY(EditAnywhere, Category = "Http Request")
+	FString source = "UNREAL_ENGINE";
 };
 
 USTRUCT(BlueprintType)
-struct FSpawnerAuthRequest
+struct FSpawnerSessionTokenResponseData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString type;
+	UPROPERTY(EditAnywhere, Category = "Http Response")
+	FString session_token;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FSpawnerAuthRequestData data;
+	UPROPERTY(EditAnywhere, Category = "Http Response")
+	FString refresh_token;
+
+	UPROPERTY(EditAnywhere, Category = "Http Response")
+	FString token_type;
+
+	UPROPERTY(EditAnywhere, Category = "Http Response")
+	int expires_in;
 };
 
 USTRUCT(BlueprintType)
-struct FSpawnerAuthResponseData
+struct FSpawnerPlayerData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
-	bool auth;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString id;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
-	FString message;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString name;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
-	FString chat_id;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString description;
+
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString age_group;
+
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString gender;
 };
 
-USTRUCT(BlueprintType)
-struct FSpawnerAuthRespose
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
-	FString type;
-
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
-	FSpawnerAuthResponseData data;
-};
-
-/* Send Chat */
 USTRUCT(BlueprintType)
 struct FSpawnerChatRequestData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString chatId;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString session_token;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString characterId;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	TArray<FString> characters;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString input;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString speaker_id;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString workspaceId;
-};
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString input_message;
 
-USTRUCT(BlueprintType)
-struct FSpawnerChatRequest
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FString type;
-
-	UPROPERTY(EditAnywhere, Category = "WebSocketRequest")
-	FSpawnerChatRequestData data;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FSpawnerPlayerData player;
 };
 
 USTRUCT(BlueprintType)
@@ -107,22 +103,19 @@ struct FSpawnerResponseStreamData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
-	FString chat_id;
-
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
+	UPROPERTY(EditAnywhere, Category = "WebSockets Response")
 	FString character_id;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
-	FString input;
+	UPROPERTY(EditAnywhere, Category = "WebSockets Response")
+	FString player_id;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
+	UPROPERTY(EditAnywhere, Category = "WebSockets Response")
 	FString response;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
+	UPROPERTY(EditAnywhere, Category = "WebSockets Response")
 	bool is_end;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
+	UPROPERTY(EditAnywhere, Category = "WebSockets Response")
 	bool blocked;
 };
 
@@ -131,9 +124,31 @@ struct FSpawnerResponseStream
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
+	UPROPERTY(EditAnywhere, Category = "WebSockets Response")
 	FString type;
 
-	UPROPERTY(EditAnywhere, Category = "WebSocketResponse")
+	UPROPERTY(EditAnywhere, Category = "WebSockets Response")
 	FSpawnerResponseStreamData data;
+};
+
+/** For Unreal **/
+USTRUCT(BlueprintType)
+struct FSpawnerPlayerInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString Id;
+
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString Name;
+
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString Description;
+
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString AgeGroup;
+
+	UPROPERTY(EditAnywhere, Category = "WebSockets Request")
+	FString Gender;
 };

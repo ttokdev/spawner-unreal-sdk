@@ -37,6 +37,7 @@ public class SpawnerAI : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"HTTP",
 				"WebSockets",
 				"Json",
                 "JsonUtilities",

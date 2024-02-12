@@ -38,6 +38,7 @@ public class SpawnerEditor : ModuleRules
 				"Slate",
 				"SlateCore",
                 "UnrealEd",
+                "DeveloperSettings",
                 "WebSockets",
 				"Json",
                 "JsonUtilities",
@@ -45,6 +46,7 @@ public class SpawnerEditor : ModuleRules
                 "Blutility",
                 "UMG",
 				"SpawnerAI",
+
             }
 			);
 		

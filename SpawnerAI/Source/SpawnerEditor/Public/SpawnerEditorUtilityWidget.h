@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "EditorUtilityWidget.h"
+#include "SpawnerApiSubsystem.h"
 #include "SpawnerEditorUtilityWidget.generated.h"
 
-/**
- * 
- */
+class USpawnerApiSubsystem;
 
 UCLASS(Abstract)
 class SPAWNEREDITOR_API USpawnerEditorUtilityWidget : public UEditorUtilityWidget
@@ -17,6 +16,7 @@ class SPAWNEREDITOR_API USpawnerEditorUtilityWidget : public UEditorUtilityWidge
 
 public:
 	virtual void NativeConstruct() override;
+	virtual bool Initialize() override;
 
 	UFUNCTION(BlueprintCallable, Category = "User Interface")
 	void ChangeWorkspaceIdText(const FText& Text);
@@ -25,5 +25,11 @@ public:
 	void ChangeApiKeyText(const FText& Text);
 
 	UFUNCTION(BlueprintCallable, Category = "User Interface")
+	void ChangeApiSecretText(const FText& Text);
+
+	UFUNCTION(BlueprintCallable, Category = "User Interface")
 	void ChangeWorkspaceData(const FText& Text, const FString& FieldName);
+
+private:
+	TWeakObjectPtr<USpawnerApiSubsystem> SpawnerApiSubsystem;
 };

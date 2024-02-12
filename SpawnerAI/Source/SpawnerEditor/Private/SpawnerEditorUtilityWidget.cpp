@@ -2,7 +2,7 @@
 
 
 #include "SpawnerEditorUtilityWidget.h"
-#include "SpawnerAI.h"
+#include "SpawnerAIModule.h"
 #include "Components/EditableTextBox.h"
 #include "SpawnerTypes.h"
 
@@ -19,6 +19,22 @@ void USpawnerEditorUtilityWidget::NativeConstruct()
 	if (ApiKeyEditableTextBox) {
 		ApiKeyEditableTextBox->OnTextChanged.AddDynamic(this, &USpawnerEditorUtilityWidget::ChangeApiKeyText);
 	}
+
+	UEditableTextBox* ApiSecretEditableTextBox = Cast<UEditableTextBox>(GetWidgetFromName("ApiSecretTextBox"));
+	if (ApiSecretEditableTextBox) {
+		ApiSecretEditableTextBox->OnTextChanged.AddDynamic(this, &USpawnerEditorUtilityWidget::ChangeApiSecretText);
+	}
+}
+
+bool USpawnerEditorUtilityWidget::Initialize()
+{
+	Super::Initialize();
+	SpawnerApiSubsystem = GetWorld()->GetSubsystem<USpawnerApiSubsystem>();
+	if (!ensure(SpawnerApiSubsystem.IsValid()))
+	{
+		return false;
+	}
+	return false;
 }
 
 void USpawnerEditorUtilityWidget::ChangeWorkspaceIdText(const FText& Text)
@@ -33,21 +49,36 @@ void USpawnerEditorUtilityWidget::ChangeApiKeyText(const FText& Text)
 	ChangeWorkspaceData(Text, FieldName);
 }
 
+void USpawnerEditorUtilityWidget::ChangeApiSecretText(const FText& Text)
+{
+	FString FieldName = TEXT("ApiSecret");
+	ChangeWorkspaceData(Text, FieldName);
+}
+
 void USpawnerEditorUtilityWidget::ChangeWorkspaceData(const FText& Text, const FString& FieldName)
 {
 	FSpawnerAIModule* Module = static_cast<FSpawnerAIModule*>(FModuleManager::Get().GetModule("SpawnerAI"));
 	if (ensure(Module))
 	{
-		FSpawnerWorkspaceData Data = Module->GetWorkspaceData();
+		if (!ensure(SpawnerApiSubsystem.IsValid()))
+		{
+			return;
+		}
+
+		FSpawnerWorkspaceData Data = SpawnerApiSubsystem->GetWorkspaceData();
 		if (FieldName == "WorkspaceId")
 		{
 			Data.WorkspaceId = Text.ToString();
 		}
-		if (FieldName == "ApiKey")
+		else if (FieldName == "ApiKey")
 		{
 			Data.ApiKey = Text.ToString();
 		}
-		Module->SetWorkspaceData(Data);
+		else if (FieldName == "ApiSecret")
+		{
+			Data.ApiSecret = Text.ToString();
+		}
+		SpawnerApiSubsystem->SetWorkspaceData(Data);
 		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Cyan, "Workspace id: " + Data.WorkspaceId + " Api Key: " + Data.ApiKey);
 	}
 }
